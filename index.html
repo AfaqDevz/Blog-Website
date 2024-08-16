@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMIT Hackathon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card" id="signUpCard">
+                    <div class="card-body">
+                        <h4 class="card-title mb-5">Sign Up <i class="fa-solid fa-user-plus fa-shake" style="color: #0083b0;"></i></i></h4>
+                        <form>
+                            <div class="mb-3">
+                                <input id="upemail" type="email" class="form-control" placeholder="Email" required>
+                            </div>
+                            <div class="mb-5">
+                                <input id="uppassword" type="password" class="form-control" placeholder="Password" required>
+                            </div>
+                            <div class="d-grid">
+                                <button id="signupbtn" type="button" class="btn btn-primary">Create Account <i
+                                        class="fa-solid fa-check" style="color: #ffffff;"></i></button>
+                            </div>
+                        </form>
+                        <div class="text-center mt-4">
+                            <p>Already have an account? <span class="toggle-link" id="toggleToSignIn">Sign In</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-4" id="signInCard" style="display: none;">
+                    <div class="card-body">
+                        <h4 class="card-title mb-5">Log In <i class="fa-solid fa-user fa-beat" style="color: #0083b0;"></i></h4>
+                        <form>
+                            <div class="mb-3">
+                                <input id="inemail" type="email" class="form-control" placeholder="Email" required>
+                            </div>
+                            <div class="mb-5">
+                                <input id="inpassword" type="password" class="form-control" placeholder="Password" required>
+                            </div>
+                            <div class="d-grid">
+                                <button id="loginbtn" type="button" class="btn btn-primary">Sign In <i class="fa-solid fa-right-to-bracket" style="color: #ffffff;"></i></button>
+                            </div>
+                        </form>
+                        <div class="text-center mt-4">
+                            <p>Don't have an account? <span class="toggle-link" id="toggleToSignUp">Sign Up</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="app.js"></script>
+</body>
+
+</html>
