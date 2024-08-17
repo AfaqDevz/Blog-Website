@@ -3,7 +3,7 @@ body {
     color: #333;
     min-height: 100vh;
     display: flex;
-    align-items: center;
+    /* align-items: center; */
     justify-content: center;
     font-family: 'Poppins';
     overflow: hidden;
@@ -83,4 +83,63 @@ body {
 
 .card-body {
     animation: fadeIn 0.8s ease-out;
+}
+
+.btn-login {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #03c900;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 20px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn-home {
+    position: absolute;
+    top: 20px;
+    right: 150px;
+    background-color: #03c900;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 20px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn-login:hover {
+    background-color: #04e900;
+    box-shadow: 0 4px 15px rgba(75, 255, 75, 0.5);
+}
+
+.blog-list {
+    width: 100%;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.blog-item {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.blog-item h5 {
+    color: #0083b0;
+    margin-bottom: 1rem;
+}
+
+.blog-item p {
+    color: #333;
+}
+
+.blog-item img {
+    height: 100px;
+    width: 100px;
 }
