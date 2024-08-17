@@ -158,8 +158,8 @@ function addBlogToPage(id, title,blogImg, content) {
   blogItem.classList.add('blog-item');
   blogItem.setAttribute('data-id', id);
   blogItem.innerHTML = `
+       <img src='${blogImg}'>
       <h5>${title}</h5>
-      <img src='${blogImg}'>
       <p>${content}</p>
   `;
 

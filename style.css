@@ -6,7 +6,7 @@ body {
     /* align-items: center; */
     justify-content: center;
     font-family: 'Poppins';
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .card {
@@ -140,6 +140,7 @@ body {
 }
 
 .blog-item img {
+    border-radius: 15px;
     height: 100px;
     width: 100px;
 }

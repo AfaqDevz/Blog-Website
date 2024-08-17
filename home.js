@@ -1,8 +1,7 @@
 import { auth, app } from "./firebase.mjs";
 import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 import { db } from "./firebase.mjs";
-import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc, deleteField, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-
+import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 let logoutbtn = document.getElementById('logoutbtn');
 let blogbtn = document.getElementById('blogbtn');
@@ -14,30 +13,19 @@ let blogImg = document.getElementById('blogImg');
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/auth.user
-    const uid = user.uid;
-    // ...
     loggedIn();
   } else {
-    // User is signed out
-    // ...
-    window.location.href = 'index.html'
+    window.location.href = 'index.html';
   }
 });
 
 logoutbtn.addEventListener('click', function () {
-
   signOut(auth).then(() => {
-    // Sign-out successful.
-    console.log('Sign-out successful.');
-    window.location.href = 'index.html'
-
+    window.location.href = 'index.html';
   }).catch((error) => {
-    // An error happened.
+    console.error("Error during sign-out:", error);
   });
-})
-
+});
 
 function loggedIn() {
   Swal.fire({
@@ -57,7 +45,6 @@ blogbtn.addEventListener('click', async function () {
         blogImg: blogImg.value,
         blogContent: blogContent.value
       });
-      console.log("Document written with ID: ", docRef.id);
       addedBlog();
       setTimeout(() => {
         blogTitle.value = '';
@@ -66,13 +53,12 @@ blogbtn.addEventListener('click', async function () {
       }, 500);
     } catch (e) {
       console.error("Error adding document: ", e);
-      errorAccount(error);
+      errorAccount(e.message);
     }
-  }
-  else {
+  } else {
     fillfields();
   }
-})
+});
 
 function addedBlog() {
   Swal.fire({
@@ -96,88 +82,79 @@ function errorAccount(error) {
 
 const querySnapshot = await getDocs(collection(db, "blogs"));
 querySnapshot.forEach((doc) => {
-  console.log(`${doc.id} => ${doc.data()}`);
-  console.log(`${doc.data}`);
-  addBlogToPage(doc.id, doc.data().blogTitle, doc.data().blogImg, doc.data().blogContent)
+  addBlogToPage(doc.id, doc.data().blogTitle, doc.data().blogImg, doc.data().blogContent);
 });
 
-
 onSnapshot(collection(db, 'blogs'), (snapshot) => {
-  blogList.innerHTML = ''
+  blogList.innerHTML = '';
   snapshot.forEach((doc) => {
     const data = doc.data();
-    addBlogToPage(doc.id, data.blogTitle, data.blogImg, data.blogContent)
+    addBlogToPage(doc.id, data.blogTitle, data.blogImg, data.blogContent);
   });
-})
+});
 
-
-
-function addBlogToPage(id, title, blogImg, content) {
-  const blogList = document.getElementById('blogList');
+function addBlogToPage(id, title, bimg, content) {
   const blogItem = document.createElement('div');
   blogItem.classList.add('blog-item');
   blogItem.setAttribute('data-id', id);
   blogItem.innerHTML = `
-      <h5>${title}</h5>
-      <img src='${blogImg}'>
-      <p>${content}</p>
-      <button class="btn btn-danger btn-delete">Delete</button>
+    <img src="${bimg}" class="blog-img"">
+    <h5 class="blog-title">${title}</h5>
+    <p class="blog-content">${content}</p>
+    <input type="text" class="edit-title mt-2 mb-2" value="${title}" style="display: none;">
+    <textarea class="edit-content mt-2 mb-2" rows="5" style="display: none;">${content}</textarea>
+    <button class="btn btn-success btn-save" style="display: none;">Save</button>
+    <button class="btn btn-info btn-edit">Edit</button>
+    <button class="btn btn-danger btn-delete">Delete</button>
   `;
 
   blogItem.querySelector('.btn-delete').addEventListener('click', async function () {
     if (confirm('Are you sure you want to delete this blog?')) {
-      const cityRef = doc(db, 'blogs', id);
-
-      await deleteDoc(cityRef);
-
+      await deleteDoc(doc(db, 'blogs', id));
       blogItem.remove();
     }
-  }
-  );
+  });
 
-  // blogItem.querySelector('.btn-edit').addEventListener('click', async function () {
+  blogItem.querySelector('.btn-edit').addEventListener('click', function () {
+    blogItem.querySelector('.blog-title').style.display = 'none';
+    blogItem.querySelector('.blog-content').style.display = 'none';
+    blogItem.querySelector('.edit-title').style.display = 'block';
+    blogItem.querySelector('.edit-content').style.display = 'block';
+    blogItem.querySelector('.btn-edit').style.display = 'none';
+    blogItem.querySelector('.btn-save').style.display = 'block';
+  });
 
-  //   blogTitle.value = title;
-  //   // blogImg.innerText = `'${blogImg}'`;
-  //   blogContent.value = blogContent;
+  blogItem.querySelector('.btn-save').addEventListener('click', async function () {
+    const newTitle = blogItem.querySelector('.edit-title').value;
+    const newContent = blogItem.querySelector('.edit-content').value;
 
-  //   blogbtn.addEventListener('click', async function(){
-  //     const blogsupdate = doc(db, 'blogs', id);
+    const blogRef = doc(db, 'blogs', id);
+    await updateDoc(blogRef, {
+      blogTitle: newTitle,
+      blogContent: newContent
+    });
 
-  //     await updateDoc(blogsupdate, {
-  //       blogTitle: blogTitle.value,
-  //       blogImg: blogImg.value,
-  //       blogContent: blogContent.value
-  //     });
-  //   })
+    blogItem.querySelector('.blog-title').innerText = newTitle;
+    blogItem.querySelector('.blog-content').innerText = newContent;
 
-  // }
-  // );
+    blogItem.querySelector('.blog-title').style.display = 'block';
+    blogItem.querySelector('.blog-content').style.display = 'block';
+    blogItem.querySelector('.edit-title').style.display = 'none';
+    blogItem.querySelector('.edit-content').style.display = 'none';
+    blogItem.querySelector('.btn-save').style.display = 'none';
+    blogItem.querySelector('.btn-edit').style.display = 'block';
 
-
-//   blogItem.querySelector('.btn-edit').addEventListener('click', function () {
-//     blogTitle.value = title;
-//     // blogImg.value = blogImg;
-//     blogContent.value = blogContent;
-
-//     blogbtn.removeEventListener('click', updateBlog);
-//     blogbtn.addEventListener('click', updateBlog);
-
-//     async function updateBlog() {
-//         const blogsupdate = doc(db, 'blogs', id);
-
-//         await updateDoc(blogsupdate, {
-//             blogTitle: blogTitle.value,
-//             // blogImg: blogImg.value,
-//             blogContent: blogContent.value
-//         });
-//     }
-// });
-
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Blog updated!",
+      showConfirmButton: false,
+      timer: 1000
+    });
+  });
 
   blogList.prepend(blogItem);
 }
-
 
 blogContent.addEventListener("keypress", function (event) {
   if (event.key === "Enter") {
@@ -185,7 +162,6 @@ blogContent.addEventListener("keypress", function (event) {
     document.getElementById("blogbtn").click();
   }
 });
-
 
 function fillfields() {
   Swal.fire({

@@ -125,10 +125,21 @@ body {
 .blog-item img {
     height: 100px;
     width: 100px;
+    border-radius: 15px;
 }
 
 .blog-item p {
     color: #333;
+}
+
+.blog-item input {
+    width: 100%;
+    border-radius: 15px;
+}
+
+.blog-item textarea {
+    width: 100%;
+    border-radius: 15px;
 }
 
 @keyframes fadeInDown {
