@@ -121,7 +121,6 @@ function addBlogToPage(id, title, blogImg, content) {
       <h5>${title}</h5>
       <img src='${blogImg}'>
       <p>${content}</p>
-      <button class="btn btn-success btn-edit">Edit</button>
       <button class="btn btn-danger btn-delete">Delete</button>
   `;
 
@@ -156,24 +155,24 @@ function addBlogToPage(id, title, blogImg, content) {
   // );
 
 
-  blogItem.querySelector('.btn-edit').addEventListener('click', function () {
-    blogTitle.value = title;
-    // blogImg.value = blogImg;
-    blogContent.value = blogContent;
+//   blogItem.querySelector('.btn-edit').addEventListener('click', function () {
+//     blogTitle.value = title;
+//     // blogImg.value = blogImg;
+//     blogContent.value = blogContent;
 
-    blogbtn.removeEventListener('click', updateBlog);
-    blogbtn.addEventListener('click', updateBlog);
+//     blogbtn.removeEventListener('click', updateBlog);
+//     blogbtn.addEventListener('click', updateBlog);
 
-    async function updateBlog() {
-        const blogsupdate = doc(db, 'blogs', id);
+//     async function updateBlog() {
+//         const blogsupdate = doc(db, 'blogs', id);
 
-        await updateDoc(blogsupdate, {
-            blogTitle: blogTitle.value,
-            // blogImg: blogImg.value,
-            blogContent: blogContent.value
-        });
-    }
-});
+//         await updateDoc(blogsupdate, {
+//             blogTitle: blogTitle.value,
+//             // blogImg: blogImg.value,
+//             blogContent: blogContent.value
+//         });
+//     }
+// });
 
 
   blogList.prepend(blogItem);
